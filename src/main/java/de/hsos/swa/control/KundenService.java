@@ -30,25 +30,47 @@ public class KundenService {
     }
 
     public boolean kundeLoeschen(Long kundennr) {
-        //todo
+        for (Kunde k : kunden) {
+            if (k.getId() == kundennr) {
+                kunden.remove(k);
+                return true;
+            }
+        }
         return false;
     }
 
     public void adresseAnlegen(Long kundennr, Adresse adr) {
-        //todo
+        for (Kunde k : kunden) {
+            if (k.getId() == kundennr) {
+                k.setAdresse(adr);
+            }
+        }
     }
 
     public void adresseAendern(Long kundennr, Adresse neueAdr) {
-        //todo
+        for (Kunde k : kunden) {
+            if (k.getId() == kundennr) {
+                k.setAdresse(neueAdr);
+            }
+        }
     }
 
     public Adresse adresseAbfragen(Long kundennr) {
-        //todo
+        for (Kunde k : kunden) {
+            if (k.getId() == kundennr) {
+                return k.getAdresse();
+            }
+        }
         return null;
     }
 
     public boolean adresseLoeschen(Long kundennr) {
-        //todo
+        for (Kunde k : kunden) {
+            if (k.getId() == kundennr) {
+                k.setAdresse(null);
+                return true;
+            }
+        }
         return false;
     }
 }
