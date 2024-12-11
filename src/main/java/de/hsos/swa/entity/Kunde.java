@@ -1,8 +1,13 @@
 package de.hsos.swa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Vetoed;
 import jakarta.persistence.*;
 import java.util.logging.Logger;
 
+@Dependent
+@Vetoed
 @Entity
 @Table(name = "KUNDE")
 public class Kunde {
@@ -22,7 +27,7 @@ public class Kunde {
 
     public Kunde(String name) {
         this.name = name;
-        LOGGER.info("Kunde erstellt: " + "Name:" + name + " ID:" + id);
+        LOGGER.info("Kunde erstellt: " + "Name:" + name );
     }
 
     public long getId() {

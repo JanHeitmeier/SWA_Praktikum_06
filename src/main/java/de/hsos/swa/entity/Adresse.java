@@ -1,10 +1,16 @@
 package de.hsos.swa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Vetoed;
 import jakarta.persistence.*;
 
+@Dependent
+@Vetoed
 @Entity
 @Table(name = "ADRESSE")
 public class Adresse {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -23,13 +29,6 @@ public class Adresse {
         this.hausnr = hausnr;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getPlz() {
         return plz;

@@ -9,7 +9,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
