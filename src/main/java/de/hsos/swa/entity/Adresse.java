@@ -1,12 +1,13 @@
 package de.hsos.swa.entity;
 
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Vetoed;
+import jakarta.persistence.*;
 
-@Vetoed
-@Dependent
+@Entity
+@Table(name = "ADRESSE")
 public class Adresse {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String plz;
     private String ort;
     private String strasse;
@@ -20,6 +21,14 @@ public class Adresse {
         this.ort = ort;
         this.strasse = strasse;
         this.hausnr = hausnr;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getPlz() {

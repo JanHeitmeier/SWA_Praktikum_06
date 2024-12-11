@@ -1,15 +1,18 @@
 package de.hsos.swa.entity;
 
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Vetoed;
-
+import jakarta.persistence.*;
 import java.util.logging.Logger;
-@Vetoed
-@Dependent
+
+@Entity
+@Table(name = "KUNDE")
 public class Kunde {
-    private static long counter = 0;
     private static final Logger LOGGER = Logger.getLogger(Kunde.class.getName());
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @ManyToOne
+    @JoinColumn(name = "adresse_id")
     private Adresse adresse;
     private String name;
 
@@ -19,9 +22,15 @@ public class Kunde {
 
     public Kunde(String name) {
         this.name = name;
+        LOGGER.info("Kunde erstellt: " + "Name:" + name + " ID:" + id);
+    }
 
-        this.id = ++counter;
-        LOGGER.info("Kunde erstellt: " + "Name:"+name+ " ID:" + id);
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Adresse getAdresse() {
@@ -38,13 +47,5 @@ public class Kunde {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }
