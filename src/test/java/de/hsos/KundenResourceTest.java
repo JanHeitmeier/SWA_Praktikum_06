@@ -53,7 +53,7 @@ public class KundenResourceTest {
     void testSingleCustomerOperations() {
         // Create customer
         Kunde kunde = new Kunde("Test Kunde");
-        Long kundenId = given()
+        long kundenId = given()
                 .contentType(ContentType.JSON)
                 .body(kunde)
                 .when()
@@ -139,7 +139,7 @@ public class KundenResourceTest {
     void testConcurrentAddressUpdates() throws InterruptedException {
         // Create initial customer
         Kunde kunde = new Kunde("Address Test Kunde");
-        Long kundenId = given()
+        long kundenId = given()
                 .contentType(ContentType.JSON)
                 .body(kunde)
                 .when()
@@ -197,7 +197,7 @@ public class KundenResourceTest {
     void testAddressOperations() {
         // Create customer
         Kunde kunde = new Kunde("Address Test");
-        Long kundenId = given()
+        long kundenId = given()
                 .contentType(ContentType.JSON)
                 .body(kunde)
                 .when()
