@@ -9,7 +9,7 @@ import java.util.Collection;
 @RequestScoped
 public interface KundenService {
 
-    public void kundeAnlegen(String name);
+    public Kunde kundeAnlegen(String name);
 
     public Collection<Kunde> kundenAbfragen();
 

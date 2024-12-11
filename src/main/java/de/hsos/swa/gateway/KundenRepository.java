@@ -21,10 +21,12 @@ public class KundenRepository implements KundenService {
 
     @Override
     @Transactional
-    public void kundeAnlegen(String name) {
+    public Kunde kundeAnlegen(String name) {
         LOGGER.info("Kunde anlegen: " + name);
         Kunde kunde = new Kunde(name);
         em.persist(kunde);
+        em.flush();
+        return kunde;
     }
 
     @Override

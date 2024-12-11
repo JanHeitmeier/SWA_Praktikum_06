@@ -35,9 +35,10 @@ public class KundenResource {
     @APIResponse(responseCode = "201", description = "Kunde erstellt")
     public Response kundeAnlegen(Kunde kunde) {
         LOGGER.info("Kunde anlegen: "+ kunde.getName());
-        kundenService.kundeAnlegen(kunde.getName());
-        return Response.status(Response.Status.CREATED).build();
+        Kunde neuerKunde = kundenService.kundeAnlegen(kunde.getName());
+        return Response.status(Response.Status.CREATED).entity(neuerKunde).build();
     }
+
 
     @GET
     @Operation(summary = "Gibt alle Kunden zurück", description = "Gibt eine Liste aller Kunden zurück")
