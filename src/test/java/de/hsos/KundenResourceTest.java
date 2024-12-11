@@ -1,23 +1,23 @@
 package de.hsos;
 
+import de.hsos.swa.entity.Adresse;
+import de.hsos.swa.entity.Kunde;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
-import de.hsos.swa.entity.Adresse;
-import de.hsos.swa.entity.Kunde;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 @QuarkusTest
 public class KundenResourceTest {

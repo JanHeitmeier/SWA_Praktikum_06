@@ -1,6 +1,5 @@
 package de.hsos.swa.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Vetoed;
 import jakarta.persistence.*;

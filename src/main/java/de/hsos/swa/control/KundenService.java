@@ -2,9 +2,8 @@ package de.hsos.swa.control;
 
 import de.hsos.swa.entity.Adresse;
 import de.hsos.swa.entity.Kunde;
-import jakarta.decorator.Decorator;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
+
 import java.util.Collection;
 
 

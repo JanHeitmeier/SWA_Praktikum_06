@@ -3,7 +3,6 @@ package de.hsos.swa.boundary.rs;
 import de.hsos.swa.control.KundenService;
 import de.hsos.swa.entity.Adresse;
 import de.hsos.swa.entity.Kunde;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -34,7 +33,7 @@ public class KundenResource {
     @Operation(summary = "Erstellt einen neuen Kunden", description = "Erstellt einen neuen Kunden mit den angegebenen Daten")
     @APIResponse(responseCode = "201", description = "Kunde erstellt")
     public Response kundeAnlegen(Kunde kunde) {
-        LOGGER.info("Kunde anlegen: "+ kunde.getName());
+        LOGGER.info("Kunde anlegen: " + kunde.getName());
         Kunde neuerKunde = kundenService.kundeAnlegen(kunde.getName());
         return Response.status(Response.Status.CREATED).entity(neuerKunde).build();
     }
