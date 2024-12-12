@@ -1,0 +1,74 @@
+@startuml
+package "Pizza4Me Domain Model" {
+
+  package "Katalog Bounded Context" {
+    class Pizza << Entity, AggregateRoot >> {
+      -id: Long
+      -name: String  
+      -beschreibung: String
+      -preis: Geldbetrag
+    }
+
+    class Geldbetrag << ValueObject >> {
+      -betrag: BigDecimal
+      -waehrung: String
+    }
+
+    interface PizzaRepository {
+      +findAll(): List<Pizza>
+      +findById(id: Long): Optional<Pizza>
+      +save(pizza: Pizza): Pizza
+    }
+
+    interface KatalogService {
+      +getAllePizzen(): List<Pizza>
+      +getPizza(id: Long): Optional<Pizza>
+      +getPizzaDetails(id: Long): PizzaDTO
+    }
+  }
+
+  package "Bestell Bounded Context" {
+    class Warenkorb << Entity, AggregateRoot >> {
+      -id: Long
+      -warenkorbPositionen: List<WarenkorbPosition>
+      +addPizza(pizza: Pizza, menge: int)
+      +updateMenge(positionId: Long, menge: int)
+      +removePizza(positionId: Long)
+      +getGesamtpreis(): Geldbetrag
+    }
+
+    class WarenkorbPosition << Entity >> {
+      -id: Long
+      -pizza: Pizza
+      -menge: int
+      -einzelpreis: Geldbetrag
+      +getGesamtpreis(): Geldbetrag
+    }
+
+    class Bestellung << Entity, AggregateRoot >> {
+      -id: Long
+      -bestellpositionen: List<BestellPosition>
+      -status: BestellStatus
+      -erstelltAm: LocalDateTime
+      +getGesamtpreis(): Geldbetrag
+    }
+
+    interface BestellService {
+      +erstelleBestellung(warenkorb: Warenkorb): Bestellung
+      +getBestellung(id: Long): Optional<Bestellung>
+    }
+
+    enum BestellStatus {
+      NEU
+      IN_BEARBEITUNG
+      ABGESCHLOSSEN
+    }
+  }
+}
+
+Pizza --> "1" Geldbetrag
+Warenkorb --> "*" WarenkorbPosition
+WarenkorbPosition --> "1" Pizza
+WarenkorbPosition --> "1" Geldbetrag
+Bestellung --> "*" BestellPosition
+@enduml
