@@ -1,0 +1,193 @@
+@startuml
+
+package "Pizza4Me" {
+
+  package "Katalog" {
+
+    package "boundary.rs" {
+      class KatalogResource {
+        +getAllProducts(): Response
+        +getProduct(id: Long): Response
+        +getProductDetails(id: Long): Response
+      }
+
+      class ProductDTO {
+        -id: Long
+        -name: String
+        -description: String
+        -price: BigDecimal
+      }
+    }
+
+    package "control" {
+      interface ProductCatalog {
+        +getAllProducts(): List<Product>
+        +getProductById(id: Long): Optional<Product>
+        +addProduct(product: Product)
+        +updateProduct(product: Product)
+        +deleteProduct(id: Long)
+      }
+
+      class ProductCatalogImpl {
+        -productRepository: ProductRepository
+      }
+    }
+
+    package "entity" {
+      class Product << Entity, AggregateRoot >> {
+        -id: Long
+        -name: String
+        -description: String
+        -price: Money
+      }
+
+      class Money << ValueObject >> {
+        -amount: BigDecimal
+        -currency: String
+      }
+    }
+
+    package "gateway" {
+      interface ProductRepository {
+        +findAll(): List<Product>
+        +findById(id: Long): Optional<Product>
+        +save(product: Product): Product
+        +deleteById(id: Long)
+      }
+
+      class JpaProductRepository {
+        -em: EntityManager
+      }
+    }
+  }
+
+  package "Nutzerverwaltung" {
+
+    package "boundary.rs" {
+      class UserResource {
+        +getAllUsers(): Response
+        +getUser(id: Long): Response
+        +addUser(userDTO: UserDTO): Response
+      }
+
+      class UserDTO {
+        -id: Long
+        -username: String
+        -email: String
+        -roles: List<String>
+      }
+    }
+
+    package "control" {
+      interface UserManagement {
+        +getAllUsers(): List<User>
+        +getUserById(id: Long): Optional<User>
+        +addUser(user: User)
+        +updateUser(user: User)
+        +deleteUser(id: Long)
+      }
+
+      class UserManagementImpl {
+        -userRepository: UserRepository
+      }
+
+      interface AuthenticationService {
+        +authenticate(username: String, password: String): boolean
+        +register(user: User, password: String): void
+        +getRoles(userId: Long): List<String>
+      }
+    }
+
+    package "entity" {
+      class User << Entity, AggregateRoot >> {
+        -id: Long
+        -username: String
+        -email: String
+        -roles: List<String>
+      }
+    }
+
+    package "gateway" {
+      interface UserRepository {
+        +findAll(): List<User>
+        +findById(id: Long): Optional<User>
+        +save(user: User): User
+        +deleteById(id: Long)
+      }
+
+      class JpaUserRepository {
+        -em: EntityManager
+      }
+    }
+  }
+
+  package "Pizza4Me" {
+
+    package "Bestellung" {
+
+      package "boundary.rs" {
+        class OrderResource {
+          +getOrder(orderId: Long): Response
+          +createOrder(): Response
+          +updateOrder(orderId: Long): Response
+          +deleteOrder(orderId: Long): Response
+        }
+      }
+
+      package "control" {
+        interface OrderService {
+          +createOrder(): Order
+          +getOrderById(orderId: Long): Optional<Order>
+          +updateOrder(order: Order): void
+          +deleteOrder(orderId: Long): void
+        }
+      }
+
+      package "entity" {
+        class Order << Entity, AggregateRoot >> {
+          -id: Long
+          -items: List<OrderItem>
+          -totalPrice: Money
+        }
+
+        class OrderItem << ValueObject >> {
+          -product: Product
+          -quantity: int
+          -price: Money
+        }
+      }
+
+      package "gateway" {
+        interface OrderRepository {
+          +findAll(): List<Order>
+          +findById(orderId: Long): Optional<Order>
+          +save(order: Order): Order
+          +deleteById(orderId: Long)
+        }
+
+        class JpaOrderRepository {
+          -em: EntityManager
+        }
+      }
+    }
+  }
+}
+
+' Relationships
+KatalogResource ..> ProductCatalog
+ProductCatalogImpl ..|> ProductCatalog
+JpaProductRepository ..|> ProductRepository
+Product --> "1" Money
+
+UserResource ..> UserManagement
+UserManagementImpl ..|> UserManagement
+JpaUserRepository ..|> UserRepository
+
+OrderResource ..> OrderService
+OrderService ..> OrderRepository
+JpaOrderRepository ..|> OrderRepository
+Order *--> "*" OrderItem
+OrderItem --> "1" Product
+OrderItem --> "1" Money
+
+@enduml
